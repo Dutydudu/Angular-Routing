@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { timer } from 'rxjs';
-
-const counter = timer(0, 1000);
 
 @Component({
   selector: 'app-timer-component',
@@ -9,27 +6,20 @@ const counter = timer(0, 1000);
   styleUrls: ['./timer-component.component.css'],
 })
 export class TimerComponentComponent implements OnInit {
+  counter = 0;
+  timer = setInterval(() => {
+    this.counter = this.counter + 1;
+  }, 1000);
+
   constructor() {}
 
-  public clock;
+  ngOnInit() {}
 
-  ngOnInit() {
-    counter.subscribe(() => {
-      this.time();
-    });
+  getSeconds() {
+    return Math.trunc(this.counter % 60);
   }
 
-  time() {
-    let date = new Date();
-    let second: number | string = date.getSeconds();
-    let minute: number | string = date.getMinutes();
-    let hour: number | string = date.getHours();
-    if (second < 10) {
-      second = '0' + second;
-    }
-    if (minute < 0) {
-      minute = '0' + minute;
-    }
-    this.clock = hour + ':' + minute + ':' + second;
+  getMinutes() {
+    return Math.trunc(this.counter / 60);
   }
 }
